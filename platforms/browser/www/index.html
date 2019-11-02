@@ -1,22 +1,39 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
-        <meta name="format-detection" content="telephone=no">
-        <meta name="msapplication-tap-highlight" content="no">
-        <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
-        <link rel="stylesheet" type="text/css" href="css/index.css">
-        <title>Aplikasi Track Klinik</title>
+            <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <!--Import materialize.css-->
+      <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </head>
+
     <body>
-        <div class="app">
-            <h1>Apache Cordova</h1>
-            <div id="deviceready" class="blink">
-                <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
-            </div>
+
+     <div class='container' style='padding-top:90px;'>
+      <h5 class="center-align light">Aplikasi pelacak rute</h5>
+       <h4 class="center-align light">Klinik Gigi di Medan</h4>
+       <h5 class="center-align light">dengan menggunakan Algoritma Greedy</h5>
+       <div  style='padding-left:12px;padding-right:12px;padding-top:28px;'>
+         <h6 class="center-align light">Silahkan login</h6>
+         <div class="input-field col s6" style='padding-top:20px;'>
+          <input placeholder="Username" id="txtUsername" type="text" class="validate">
         </div>
-        <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
+          <div class="input-field col s6" style='padding-top:20px;'>
+          <input placeholder="Password" id="txtPassword" type="password" class="validate">
+        </div>
+         <a class="waves-effect waves-light btn" id='btnLogin'><i class="material-icons left">forward</i> Login</a>
+      <div class='center-align' style='padding-top:12px;'>
+        <div style='margin-bottom:12px;' id='capStatus'>Status koneksi ke server</div>
+        <h6>Develop by : Taing Sapitri</h6>
+         </div>
+       </div>
+      </div>
+      <script type="text/javascript" src="js/jquery.js"></script>
+      <script type="text/javascript" src="js/materialize.min.js"></script>
+      <script type="text/javascript" src="js/login.js"></script>
     </body>
-</html>
+  </html>
+        
