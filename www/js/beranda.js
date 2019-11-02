@@ -6,7 +6,7 @@ $(document).ready(function(){
           var loading = "<div class='progress'><div class='indeterminate'></div></div>";
           console.log("Halaman berhasil di load");
           $('#divUtama').html(loading);
-          $('#divUtama').load('berandaUtama.php');
+          $('#divUtama').load('utama.html');
           $('#judulApps').html("Track Rute Apps");
       //tombol beranda
       $('#homeSideNav').click(function(){
@@ -22,10 +22,10 @@ $(document).ready(function(){
   });
   
   
-  $('#pesananSaya').click(function(){    
+  $('#btnPengujian').click(function(){    
             $('#divUtama').html(loading);
-          $('#divUtama').load('pesananSaya.php');
-          $('#judulApps').html("Track Rute Apps");
+          $('#divUtama').load('pengujian.html');
+          $('#judulApps').html("Pengujian");
     $('.button-collapse').sideNav('hide');
   });
   
