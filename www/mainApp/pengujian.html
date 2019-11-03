@@ -1,4 +1,10 @@
- <div class="input-field col s12"  style='margin-top:20px;'>
+<div class='container'>
+  <div class='margin-bottom:12px;'>
+    <h4>
+      Pengujian Greddy
+    </h4>
+  </div>
+  <div class="input-field col s12"  style='margin-top:20px;'>
     <select >
       <option value="" disabled selected>Pilih klinik</option>
       <option value="1">Klinik Marinda</option>
@@ -21,13 +27,15 @@
 <button>Cari</button>
 
 <div id="container"></div>
+</div> 
+
 <script>
   
   $(document).ready(function(){
    $('select').material_select();
     
-     var width = window.innerWidth;
-      var height = window.innerHeight;
+     var width = window.innerWidth - 20;
+      var height = window.innerHeight - 20;
 
       var stage = new Konva.Stage({
         container: 'container',
@@ -116,7 +124,7 @@
         var line = new Konva.Arrow({
           stroke: 'black',
           id: connect.id,
-          fill: 'black'
+          fill: 'red'
         });
         layer.add(line);
       });
@@ -125,7 +133,7 @@
         var node = new Konva.Circle({
           id: target.id,
           fill: Konva.Util.getRandomColor(),
-          radius: 20 + Math.random() * 20,
+          radius: 15 + 1 * 15,
           shadowBlur: 10,
           draggable: true
         });

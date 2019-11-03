@@ -1,0 +1,35 @@
+<div class='container'>
+  <div class='margin-bottom:12px;'>
+    <h4>
+      Data Klinik
+    </h4>
+  </div>
+  <button class='btn green darken-2'>Tambah Klinik</button>
+  <table>
+    <thead>
+    <tr>
+    <td>Kode</td><td>Klinik</td><td>Aksi</td>
+    </tr>
+    </thead>
+    <tbody id='listKlinik'>
+      
+    </tbody>
+  </table>
+  
+</div>
+
+<script>
+$(document).ready(function(){
+  $.get('http://157.245.154.248:3565/klinik/all', function(data){
+    data.forEach(renderTabel);
+    let isiTabel = '';
+    function renderTabel(item, index){
+      let no = index + 1;
+     document.getElementById("listKlinik").innerHTML += '<tr><td>'+no+'</td><td>'+item.nama+'</td><td><button class="btn">Edit</button></td></tr>';
+    }
+//     $('#listKlinik').html(isiTabel);
+    
+    console.log(data);
+  });
+});
+</script>

@@ -13,11 +13,10 @@ $(document).ready(function(){
       location.reload();
       });
   
-  $('#pesanDriver').click(function(){
-    
+  $('#btnKlinik').click(function(){  
             $('#divUtama').html(loading);
-          $('#divUtama').load('pesanDriver.php');
-          $('#judulApps').html("Track Rute Apps");
+          $('#divUtama').load('klinik.html');
+          $('#judulApps').html("Data Klinik");
     $('.button-collapse').sideNav('hide');
   });
   
