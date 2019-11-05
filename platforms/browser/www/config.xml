@@ -2,10 +2,10 @@
 <widget id="com.lacak.klinik" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Aplikasi-Lacak-Rute-Terdekat</name>
     <description>
-        A sample Apache Cordova application that responds to the deviceready event.
+       Aplikasi untuk melacak rute terdekat dengan menggunakan algoritma Greedy
     </description>
     <author email="dev@cordova.apache.org" href="http://cordova.io">
-        Apache Cordova Team
+        Haxorsprogrammingclub
     </author>
     <content src="index.html" />
     <access origin="*" />

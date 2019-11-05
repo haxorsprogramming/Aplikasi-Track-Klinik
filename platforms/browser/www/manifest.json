@@ -4,8 +4,8 @@
   "name": "Aplikasi-Lacak-Rute-Terdekat",
   "short_name": "Aplikasi-Lacak-Rute-Terdekat",
   "version": "com.lacak.klinik",
-  "description": "A sample Apache Cordova application that responds to the deviceready event.",
-  "author": "Apache Cordova Team",
+  "description": "Aplikasi untuk melacak rute terdekat dengan menggunakan algoritma Greedy",
+  "author": "Haxorsprogrammingclub",
   "icons": [],
   "start_url": "index.html"
 }
