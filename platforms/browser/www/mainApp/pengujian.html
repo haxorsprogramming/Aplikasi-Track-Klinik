@@ -6,26 +6,48 @@
   </div>
   <div class="input-field col s12"  style='margin-top:20px;'>
     <select id='txtKlinik1'>
-       <option value="1">Klinik Marinda</option>
-      <option value="2">Klinik Pratama</option>
-      <option value="3">Klinik Rizal</option>
+       <option value="none" disabled selected>Pilih klinik</option>
+       <option value="a">Klinik Marinda</option>
+      <option value="b">Klinik Pratama</option>
+      <option value="c">Klinik Rizal</option>
+      <option value="d">Klinik Mutia</option>
+      <option value="e">Klinik Akbar</option>
+      <option value="f">Klinik Mansyur</option>
+      <option value="g">Klinik Maulana</option>
+      <option value="h">Klinik Ardiana</option>
+      <option value="i">Klinik Afwan</option>
+      <option value="j">Klinik Dermawan</option>
+      <option value="k">Klinik Munah</option>
+    
     </select>
     <label>Lokasi Awal</label>
   </div>
 
  <div class="input-field col s12" style='padding-top:20px;'>
     <select  id='txtKlinik2'>
-      <option value="" disabled selected>Pilih klinik</option>
-      <option value="1">Klinik Marinda</option>
-      <option value="2">Klinik Pratama</option>
-      <option value="3">Klinik Rizal</option>
+      <option value="none" disabled selected>Pilih klinik</option>
+       <option value="a">Klinik Marinda</option>
+      <option value="b">Klinik Pratama</option>
+      <option value="c">Klinik Rizal</option>
+      <option value="d">Klinik Mutia</option>
+      <option value="e">Klinik Akbar</option>
+      <option value="f">Klinik Mansyur</option>
+      <option value="g">Klinik Maulana</option>
+      <option value="h">Klinik Ardiana</option>
+      <option value="i">Klinik Afwan</option>
+      <option value="j">Klinik Dermawan</option>
+      <option value="k">Klinik Munah</option>
     </select>
     <label>Lokasi Tujuan</label>
   </div>
 
-<button class='btn'>Cari</button>
-
-<div id="container"></div>
+<button class='btn' id='btnHitung'>Hitung</button>
+<hr/>
+  <div style='text-align:center;'>
+     <small>Graph antar klinik awal</small>
+  </div>
+ 
+  <div id="container"></div>
 </div> 
 
 <script type='text/javascript'>
@@ -48,7 +70,7 @@
     $.get('http://157.245.154.248:3565/klinik/all',function(data){
    
       let panjang = data.length;
-      console.log(data[1].kordinat_x);
+//       console.log(data[1].kordinat_x);
       
       // function to generate a list of "targets" (circles)
       function generateTargets() {
@@ -58,28 +80,39 @@
         while (result.length < panjang) {
           let xc = data[nA].kordinat_x;
           let yc = data[nA].kordinat_y;
-          console.log(xc);
+          
           result.push({
             id: 'target-' + result.length,
             x: stage.width() * xc,
             y: stage.height() * yc
           });
-          console.log(Math.random());
+          
+ 
           nA++;
         }
         return result;
       }
 
       var targets = generateTargets();
-
+      
+      
       // function to generate arrows between targets
-      function generateConnectors() {
-        var number = panjang;
+     function generateConnectors() {
+        var number = 3;
         var result = [];
-        while (result.length < number) {
-          var from = 'target-' + Math.floor(Math.random() * targets.length);
-          var to = 'target-' + Math.floor(Math.random() * targets.length);
-          if (from === to) {
+        var d_dari =  [0, 0,  1, 1, 2, 3, 3, 4, 4,  5, 6, 6, 7, 8, 8, 9, ];
+        var d_keda =  [1, 2,  2, 4, 5, 2, 6, 7, 5,  8, 9, 5, 10, 7, 9, 10,];
+        var jlhNode = "";
+//        $.get('http://157.245.154.248:3565/klinik/node', function(daCon){
+//             jlhNode = daCon.length;
+//           });
+       var cap = 0;
+       
+       var dari = [];
+        while (result.length < 16) {
+          var from = 'target-' + d_dari[cap];
+          var to = 'target-' + d_keda[cap];
+   if (from === to) {
             continue;
           }
           result.push({
@@ -87,7 +120,9 @@
             from: from,
             to: to
           });
+       cap++;
         }
+      
         return result;
       }
 
@@ -138,32 +173,36 @@
         });
         layer.add(line);
       });
-
+      let inWarna = 0;
       targets.forEach(target => {
+        
+        let warna = data[inWarna].warna_node;
         var node = new Konva.Circle({
           id: target.id,
-          fill: Konva.Util.getRandomColor(),
+          fill: warna,
           radius: 15 + 1 * 15,
           shadowBlur: 10,
-          draggable: true
+          draggable: false
         });
+        inWarna++;
         layer.add(node);
 
-        node.on('dragmove', () => {
-          // mutate the state
-          target.x = node.x();
-          target.y = node.y();
-
-          // update nodes from the new state
-          updateObjects();
-        });
+        
       });
 
       updateObjects();
       
     });
     
-    
+    $('#btnHitung').click(function(){
+      var klinik1 = $('#txtKlinik1').val();
+      var klinik2 = $('#txtKlinik2').val();
+      if(klinik1 == klinik2){
+        window.alert("Tidak bisa pilih klinik yg sama");
+      }else{
+        
+      }
+    });
 
       
     
