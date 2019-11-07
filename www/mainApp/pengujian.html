@@ -7,7 +7,7 @@
   <div class="input-field col s12"  style='margin-top:20px;'>
     <select id='txtKlinik1'>
        <option value="none" disabled selected>Pilih klinik</option>
-       <option value="a">Klinik Marinda</option>
+       <option value="a" class="light-blue-text">Klinik Marinda</option>
       <option value="b">Klinik Pratama</option>
       <option value="c">Klinik Rizal</option>
       <option value="d">Klinik Mutia</option>
@@ -40,7 +40,7 @@
     </select>
     <label>Lokasi Tujuan</label>
   </div>
-
+</hr>
 <button class='btn' id='btnHitung'>Hitung</button>
 <hr/>
   <div style='text-align:center;'>
@@ -100,8 +100,8 @@
      function generateConnectors() {
         var number = 3;
         var result = [];
-        var d_dari =  [0, 0,  1, 1, 2, 3, 3, 4, 4,  5, 6, 6, 7, 8, 8, 9, ];
-        var d_keda =  [1, 2,  2, 4, 5, 2, 6, 7, 5,  8, 9, 5, 10, 7, 9, 10,];
+        var d_dari =  [0, 0,  0, 1, 1, 2, 3, 3, 4, 4,  5, 6, 6, 7, 8, 8, 8, 9, ];
+        var d_keda =  [1, 2,  3, 2, 4, 5, 2, 6, 7, 5,  8, 9, 5, 10, 7, 9, 10, 10,];
         var jlhNode = "";
 //        $.get('http://157.245.154.248:3565/klinik/node', function(daCon){
 //             jlhNode = daCon.length;
@@ -109,7 +109,7 @@
        var cap = 0;
        
        var dari = [];
-        while (result.length < 16) {
+        while (result.length < 18) {
           var from = 'target-' + d_dari[cap];
           var to = 'target-' + d_keda[cap];
    if (from === to) {
