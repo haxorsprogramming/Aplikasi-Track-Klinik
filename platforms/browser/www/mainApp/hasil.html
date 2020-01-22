@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Java Source Code</title>
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</script>
+    <style>
+ html { position: relative; height: 100%; }
+ body { margin-bottom: 60px; } .footer { position: absolute; bottom: 0; width: 100%; height: 60px; line-height: 60px; background-color: #f5f5f5; } body > .container { padding: 60px 15px 10px; } .footer > .container { padding-right: 15px; padding-left: 15px; } code { font-size: 80%; } #map { margin-top: 20px; width: 100%; height: 400px; } #floating-panel { position: absolute; top: 10px; left: 25%; z-index: 5; background-color: #fff; padding: 5px; border: 1px solid #999; text-align: center; font-family: 'Roboto','sans-serif'; line-height: 30px; padding-left: 10px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-success">
+        <a class="navbar-brand" href="">Hasil Pengujian</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon" id='btnKembali'></span>
+        </button>
+      </nav>
+    </header>
+    <main class="container">
+      <div id='divDetail'>
+       <p>
+         Dari klinik : <span id='capDari'></span><br/>
+         Ke Klinik : <span id='capKe'></span><br/>
+         Jumlah Node : <span id='capJlhNode'></span><br/>
+         Jarak : <span id='capJarak'></span><br/>
+         Waktu Tempuh : <span id='capWaktuTempuh'></span><br/>
+        </p>
+        <hr/>
+      </div>
+  <div style='margin-top:20px;'>
+    <table id='table_id' class='table table-bordered'>
+    </table>
+      </div>
+    </main>
+  </body>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<script>
+$(document).ready( function () {
+  var table = document.getElementById("table_id");
+  $('#divDetail').hide();
+  
+        var row = table.insertRow(0);
+
+        // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+         
+        // Add some text to the new cells:
+        cell1.innerHTML = "<b>Waktu</b>";
+        cell2.innerHTML = "<b>Titik</b>"; 
+        cell3.innerHTML = "<b>Aksi</b>"; 
+     $.post('http://api.haxors.or.id/taing/get_perhitungan.php',function(data){
+           let obj = JSON.parse(data);
+       console.log(obj);
+           obj.forEach(myFunction);
+       function myFunction(item, index){
+         var table = document.getElementById("table_id");
+        var row = table.insertRow(1);
+
+        // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+         
+        // Add some text to the new cells:
+        cell1.innerHTML = obj[index].waktu;
+        cell2.innerHTML = obj[index].dari+' ke '+obj[index].ke; 
+        cell3.innerHTML = "<button class='btn btn-sm btn-success btnDetail' id="+obj[index].id+">Detail</button>"; 
+       }
+     });
+
+  $('#table_id').on('click','.btnDetail',function(){
+    $('#divDetail').slideUp(500);
+       let id = $(this).attr('id');
+    $.post('http://api.haxors.or.id/taing/get_perhitungan_details.php',{'id':id},function(data){
+      let obj = JSON.parse(data);
+
+      $('#capDari').html(obj.dari);
+      $('#capKe').html(obj.ke);
+      $('#capJlhNode').html(obj.jlh_node);
+      $('#capJarak').html(obj.jarak+" Meter");
+      $('#capWaktuTempuh').html(obj.durasi);
+      $('#divDetail').slideDown(1000);
+      
+    });
+      });
+  
+  $('#btnKembali').click(function(){
+    window.location.assign('beranda.html');
+  });
+});
+</script>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

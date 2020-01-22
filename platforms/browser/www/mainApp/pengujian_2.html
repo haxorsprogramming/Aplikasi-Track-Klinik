@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Java Source Code</title>
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    </script>
+    <style>
+ html { position: relative; height: 100%; }
+ body { margin-bottom: 60px; } .footer { position: absolute; bottom: 0; width: 100%; height: 60px; line-height: 60px; background-color: #f5f5f5; } body > .container { padding: 60px 15px 10px; } .footer > .container { padding-right: 15px; padding-left: 15px; } code { font-size: 80%; } #map { margin-top: 20px; width: 100%; height: 400px; } #floating-panel { position: absolute; top: 10px; left: 25%; z-index: 5; background-color: #fff; padding: 5px; border: 1px solid #999; text-align: center; font-family: 'Roboto','sans-serif'; line-height: 30px; padding-left: 10px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-success">
+        <a class="navbar-brand" href="">Pengujian Aplikasi</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon" id='btnKembali'></span>
+        </button>
+      </nav>
+    </header>
+    <main class="container">
+      <div class="row">
+       <div class="col-md-12">
+       <br>
+        <div class="row">
+      <label class="col-sm-2 col-form-label">Titik Awal</label>
+         <div class="col">
+            <select class="form-control" id="start" >
+         
+          </select>
+      </div>
+      <label class="col-sm-2 col-form-label">Titik Tujuan</label>
+      <div class="col">
+          <select class="form-control" id="finish">
+           
+          </select>
+      </div>
+     
+      </div>
+         <div style='margin-top:12px;text-align:center;'>
+     <button class='btn btn-success' id='btnHitung'>Hitung</button> 
+           <div id='statusHitung' style='margin-top:10px;'>
+             
+           </div>
+           <div class="progress" id='capLoading'>
+            <div class="progress-bar" id='loadingDiv' role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+    </div>
+    <span id="error"></span>
+      </div>
+     </div>
+  
+   <div id="map"></div>       
+  
+    </main>
+<div id='capHasil' class='container' style='margin-top:14px;'>
+  <div class="card">
+  <div class="card-header">
+    Hasil perhitungan
+  </div>
+  <div class="card-body">
+    <div id='capDetailHitung'><i>Silahkan pilih titik awal dan titik akhir</i></div>
+    <div style='margin-top:4px;margin-bottom:5px;' id='div_tabel_hasil'> 
+    </div>
+    <a href="hasil.html" id='btnHistory' class="btn btn-sm btn-primary">Lihat semua history perhitungan</a>
+  </div>
+</div>
+</div>
+    
+  </body>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+ <script>
+   $('#btnHistory').hide();
+   $('#div_tabel_hasil').hide();
+      function initMap() {
+        var directionsService = new google.maps.DirectionsService;
+        var directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers:true});
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 17,
+          mapTypeId: 'satellite',
+          center: {lat: 3.600969, lng: 98.697914}
+        });
+        directionsDisplay.setMap(map);
+        
+        $.post('http://api.haxors.or.id/taing/get_klinik_marker.php',function(data){
+           let obj = JSON.parse(data);
+           obj.forEach(myFunction);
+           function myFunction(item, index){
+             var marker = new google.maps.Marker({
+               position : {lat : parseFloat(item.lat), lng:parseFloat(item.lng)},
+               map: map,
+               
+               label : {
+                 text : item.nama+" - "+item.kd_klinik,
+                 fontSize : "12px",
+                 color : "white"
+               }
+               
+             });
+             marker.setMap(map);          
+             var sel = document.getElementById('start');
+            // create new option element
+            var opt = document.createElement('option');
+            // create text node to add to option element (opt)
+            opt.appendChild( document.createTextNode(item.nama+" - "+item.kd_klinik));
+            // set value property of opt
+            opt.value = item.lat+","+item.lng+"-"+item.kd_klinik; 
+            // add opt to end of select box (sel)
+            sel.appendChild(opt); 
+             
+              var sel2 = document.getElementById('finish');
+            // create new option element
+            var opt2 = document.createElement('option');
+            // create text node to add to option element (opt)
+            opt2.appendChild(document.createTextNode(item.nama+" - "+item.kd_klinik));
+            // set value property of opt
+            opt2.value = item.lat+","+item.lng+"-"+item.kd_klinik; 
+            // add opt to end of select box (sel)
+            sel2.appendChild(opt2);              
+           }
+        });
+        function selesaiHitung(){
+          $('#statusHitung').html("<strong>Perhitungan selesai ...</strong>");
+          document.getElementById("loadingDiv").setAttribute("style", "width:100%");
+        }
+        function clearStatusHitung(){
+          $('#statusHitung').html("");
+          document.getElementById("loadingDiv").setAttribute("style", "width:0%");
+          $('#btnHistory').show();
+          let kor_start = document.getElementById('start').value;
+        let start_ex = kor_start.split('-');
+        let kor_finish = document.getElementById('finish').value;
+        let finish_ex = kor_finish.split('-');
+        let kl_s = start_ex[1];
+        let kl_f = finish_ex[1];
+        
+          let data_j_awal = start_ex[0];
+          let data_j_awal_f = data_j_awal.split(',');
+          let data_j_akhir = finish_ex[0];
+          let data_j_akhir_f = data_j_akhir.split(',');
+           
+          var point_a = new google.maps.LatLng( parseFloat(data_j_awal_f[0]), parseFloat(data_j_awal_f[1]) );
+          var point_b = new google.maps.LatLng( parseFloat(data_j_akhir_f[0]),parseFloat(data_j_akhir_f[1]) );
+          
+          var distance_miles = getDistanceInMiles( point_a, point_b ); 
+          var ke_meter = distance_miles.toFixed(2) * 1609.34;
+          
+     var origin1 = new google.maps.LatLng(55.930385, -3.118425);
+      var origin2 = 'Greenwich, England';
+      var destinationA = 'Stockholm, Sweden';
+      var destinationB = new google.maps.LatLng(50.087692, 14.421150);
+      var waktu = "";
+      var service = new google.maps.DistanceMatrixService();
+      service.getDistanceMatrix(
+        {
+          origins: [point_a],
+          destinations: [point_b],
+          travelMode: 'WALKING',
+          unitSystem: google.maps.UnitSystem.METRIC,
+          avoidHighways: false,
+          avoidTolls: false
+        }, callback);
+     
+      function callback(response, status) {
+//         let durasi = response["0"].elements["0"].duration;
+        var results = response.rows[0].elements;
+         var element = results[0];
+        var duration = element.duration.text;
+        console.log(response);
+        console.log(duration);
+//         return waktu = duration + "as";
+        $.post('http://api.haxors.or.id/taing/proses_hitung.php',{'start':kl_s,'finish':kl_f,'jarak':ke_meter,'waktu':duration},function(data){
+            let obj = JSON.parse(data);
+             console.log(obj);
+          let jalan_f = duration.split(" ");
+          let waktu_jalan = jalan_f[0];
+             $('#capDetailHitung').html("Melakukan perhitungan <br/>dari <strong>"+obj.start+"</strong> <br/>ke <strong>"+obj.finish+"</strong><br/> Jumlah node : "+obj.jlh_node+", <br/> Jarak : "+ke_meter+" meter"+"<br/> Durasi : "+waktu_jalan+" Menit");
+             $('#div_tabel_hasil').html(obj.isiTabel);
+             $('#div_tabel_hasil').show();
+             
+          });  
+      }
+
+          function getDistanceInMiles( point_a, point_b ) {
+            var distance_in_meters = google.maps.geometry.spherical.computeDistanceBetween( point_a, point_b );
+            return distance_in_meters * 0.000621371; // convert meters to miles
+          }
+          
+           
+        }
+        
+        
+        var onChangeHandler = function() {
+          $('#statusHitung').html("<strong>Melakukan perhitungan</strong>");
+           document.getElementById("loadingDiv").setAttribute("style", "width:95%");
+          setTimeout(function(){calculateAndDisplayRoute(directionsService, directionsDisplay);}, 3000);
+          setTimeout(function(){selesaiHitung();}, 2500);
+          setTimeout(function(){clearStatusHitung();},4500);
+//           setTimeout(function(){$('#statusHitung').html("");}, 2000);
+          
+               
+          
+        };
+        document.getElementById('btnHitung').addEventListener('click', onChangeHandler);
+//         document.getElementById('finish').addEventListener('change', onChangeHandler);
+      }
+   
+    $('#btnKembali').click(function(){
+      window.location.assign('beranda.html');
+    });
+   
+//    $('#btnHitung').click(function(){
+//      onChangeHandler();
+//    });
+
+      function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+        let kor_start = document.getElementById('start').value;
+        let start_ex = kor_start.split('-');
+        let kor_finish = document.getElementById('finish').value;
+        let finish_ex = kor_finish.split('-');
+        
+        directionsService.route({
+          origin: start_ex[0],
+          destination: finish_ex[0],
+          travelMode: 'DRIVING'
+        }, function(response, status) {
+          if (status === 'OK') {
+            directionsDisplay.setDirections(response);
+            $("#error").empty();
+            $("#error").removeClass();
+          } else {
+           $("#error").addClass("badge badge-danger");
+            $("#error").text("Tidak dapat menemukan nama lokasi, status error: "+status);
+          }
+        });
+      }
+    </script>
+ <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdKAadeF0KHZiHX0vzf8BSZa5NaS92xTI&callback=initMap">
+</script>
+</html>

@@ -4,32 +4,36 @@
       Data Klinik
     </h4>
   </div>
-  <button class='btn green darken-2'>Tambah Klinik</button>
-  <table>
-    <thead>
+ 
+  <table id='table_id' class='table striped'>
     <tr>
-    <td>Kode</td><td>Klinik</td><td>Aksi</td>
+    <td>Kd Klinik</td>
+     <td>Nama</td>
     </tr>
-    </thead>
-    <tbody id='listKlinik'>
-      
-    </tbody>
   </table>
   
 </div>
 
 <script>
 $(document).ready(function(){
-  $.get('http://157.245.154.248:3565/klinik/all', function(data){
-    data.forEach(renderTabel);
-    let isiTabel = '';
-    function renderTabel(item, index){
-      let no = index + 1;
-     document.getElementById("listKlinik").innerHTML += '<tr><td>'+no+'</td><td>'+item.nama+'</td><td><button class="btn">Edit</button></td></tr>';
-    }
-//     $('#listKlinik').html(isiTabel);
-    
-    console.log(data);
+  $.post('http://api.haxors.or.id/taing/get_klinik.php', function(data){
+    let obj = JSON.parse(data);
+             obj.forEach(myFunction);
+       function myFunction(item, index){
+         var table = document.getElementById("table_id");
+        var row = table.insertRow(1);
+
+        // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+      
+         
+        // Add some text to the new cells:
+        cell1.innerHTML = obj[index].kd_klinik;
+        cell2.innerHTML = obj[index].nama; 
+       
+  }
+
   });
 });
 </script>

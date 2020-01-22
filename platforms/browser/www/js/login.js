@@ -22,8 +22,10 @@ $(document).ready(function(){
         username.focus();
       }else{
         $('#capStatus').html("Login ...");
-        $.post('http://157.245.154.248:3565/login-user',{'userId':userId,'passId':passId},function(data){
-          let status = data.status;
+        $.post('http://api.haxors.or.id/taing/login_cek.php',{'userId':userId,'passId':passId},function(data){
+          let obj = JSON.parse(data);
+          let status = obj.status;
+          console.log(data);
           if(status == 'sukses'){
             window.location.assign('mainApp/beranda.html');
           }else{
