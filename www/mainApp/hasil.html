@@ -82,11 +82,7 @@ $(document).ready( function () {
        let id = $(this).attr('id');
     $.post('http://api.haxors.or.id/taing/get_perhitungan_details.php',{'id':id},function(data){
       let obj = JSON.parse(data);
-//       Dari klinik : <span id='capDari'></span><br/>
-//          Ke Klinik : <span id='capKe'></span><br/>
-//          Jumlah Node : <span id='capJlhNode'></span><br/>
-//          Jarak : <span id='capJarak'></span><br/>
-//          Waktu Tempuh : <span id='capWaktuTempuh'></span><br/>
+
       $('#capDari').html(obj.dari);
       $('#capKe').html(obj.ke);
       $('#capJlhNode').html(obj.jlh_node);
