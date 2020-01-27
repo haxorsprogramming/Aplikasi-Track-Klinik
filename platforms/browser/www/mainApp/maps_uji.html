@@ -66,6 +66,9 @@ $('#capLoading').hide();
   function initMap() {
         var directionsService = new google.maps.DirectionsService;
         var directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers:true});
+
+        var lokasi_terpilih = '';
+
         map = new google.maps.Map(document.getElementById('map'), {
           zoom: 17,
           mapTypeId: 'satellite',
@@ -130,6 +133,7 @@ $('#capLoading').hide();
         // window.alert(place.geometry.location);
         // let obj_pos = JSON.parse(lokasi);
         console.log(lokasi);
+        lokasi_terpilih = nama;
         $('#statusHitung').html("Lokasi awal dipilih : " + nama);
         $('#btnHitung').show();
       });        
@@ -137,6 +141,10 @@ $('#capLoading').hide();
           bounds.extend(place.geometry.location);
         }
         map.fitBounds(bounds);
+
+        $('#btnHitung').click(function(){
+            window.alert(lokasi_terpilih);
+        });
 
   }
     </script>
