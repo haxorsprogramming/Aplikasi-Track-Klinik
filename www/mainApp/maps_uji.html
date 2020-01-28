@@ -90,11 +90,11 @@ $('#capLoading').hide();
               };
             });
       }
-
+      var perMaps = 0;
       function createMarkers(places) {
         var bounds = new google.maps.LatLngBounds();
         // var placesList = document.getElementById('places');
-        
+       
      for (var i = 0, place; place = places[i]; i++) {
       var image = {
           url: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
@@ -119,7 +119,7 @@ $('#capLoading').hide();
           });
        let nama = place.name;
 
-       var sel = document.getElementById('start');
+            var sel = document.getElementById('start');
             // create new option element
             var opt = document.createElement('option');
             // create text node to add to option element (opt)
@@ -132,19 +132,22 @@ $('#capLoading').hide();
        marker.addListener('click', function() {
         // window.alert(place.geometry.location);
         // let obj_pos = JSON.parse(lokasi);
-        console.log(lokasi);
+        // console.log(perMaps);
+        console.log(nama);
         lokasi_terpilih = nama;
         $('#statusHitung').html("Lokasi awal dipilih : " + nama);
         $('#btnHitung').show();
       });        
 
           bounds.extend(place.geometry.location);
+         
         }
         map.fitBounds(bounds);
 
         $('#btnHitung').click(function(){
             window.alert(lokasi_terpilih);
         });
+        perMaps++;
 
   }
     </script>
