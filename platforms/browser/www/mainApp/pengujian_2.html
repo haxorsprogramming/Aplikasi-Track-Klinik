@@ -29,6 +29,12 @@
       
       </div>
      <h4>Silahkan pilih klinik</h4>
+     <select id='txtNodeAwal' class="form-control">
+      <option value="none">-- Pilih Klinik --</option>
+     </select>
+     <div style='padding-top:10px;'>
+       </div>
+     
       </div>
          
     <span id="error"></span>
@@ -46,6 +52,7 @@
   <div class="card-body">
     <div id='infoKlinik' style='margin-bottom: 12px;'></div>
     <div id='infoAkhir'></div>
+    <div id='titikTengah'></div>
     <div id='jarak_waktu'></div>
     <div style='margin-top:12px;'>
     <button class="btn btn-success" id='btnCari'>Cari Klinik Terdekat</button>
@@ -71,7 +78,22 @@
    $('#hideNode').hide();
    $('#kor_awal').hide();
    $('#kor_akhir').hide();
+  //  $('#btnCari').hide();
    var rute_klinik_awal = "";
+
+  $.post('http://api.haxors.or.id/taing/get_klinik.php',function(data){
+    let obj = JSON.parse(data);
+    obj.forEach(renderSelec);
+
+    function renderSelec(item, index){
+      var sel = document.getElementById('txtNodeAwal');
+      var opt = document.createElement('option');
+      opt.appendChild(document.createTextNode(item.nama+" - "+item.node));
+      opt.value = item.node;
+      sel.appendChild(opt);
+    }
+
+  });
 
       function initMap() {
         var directionsService = new google.maps.DirectionsService;
@@ -130,6 +152,26 @@
            }
         });
 
+        $('#txtNodeAwal').change(function(){
+          // onChangeHandler();
+          // $('#btnCari').show();
+          let nodeMy = $('#txtNodeAwal').val();
+          // window.alert(nodeMy);
+          $('#hideNode').html(nodeMy);
+               $.post('http://api.haxors.or.id/taing/hitung_node.php',{'node':nodeMy},function(data){
+                 let obj = JSON.parse(data);
+                 $('#infoKlinik').html("<b>Informasi titik awal</b><br/>"+ obj.nama + "<br/>"+ obj.alamat);
+                console.log(JSON.parse(data));
+                $('#capHasil').show();
+                $('#infoAkhir').html("");
+                $('#titikTengah').html("");
+               });
+        });
+
+        // $('#btnCari').click(function(){
+          // onChangeHandler();
+        // });
+
         var onChangeHandler = function() {         
           setTimeout(function(){calculateAndDisplayRoute(directionsService, directionsDisplay);}, 1000);  
         };
@@ -149,7 +191,8 @@
         $('#kor_akhir').html(lat_lt+","+lng_lt);
         onChangeHandler();
         var service = new google.maps.DistanceMatrixService();
-        $('#infoAkhir').html("<b>Titik Klinik Terdekat</b><br/>Nama : "+obj.nama_lt+"<br/>Alamat : "+obj.alamat_lt);
+        $('#infoAkhir').html("<b>Titik Klinik Terdekat</b><br/>"+obj.nama_lt+"<br/>Alamat : "+obj.alamat_lt);
+        
         let start_ex_d = $('#kor_awal').html();
         // let kor_finish = document.getElementById('finish').value;
         let finish_ex_d = $('#kor_akhir').html();
@@ -200,7 +243,10 @@
         
         $.post('http://api.haxors.or.id/taing/tbl_step_new.php',{'node':rute_klinik_awal}, function(data){
           var obj = JSON.parse(data);
-          
+         
+            $('#titikTengah').html("<b>Melalui Titik </b><br/>"+obj.nama+"<br/>Alamat : "+obj.alamat);
+         
+          // $('#infoAkhir').html("<b>Melalui Titik </b><br/>Nama : "+ obj.)
           waypts.push({location : obj.alamat, stopover:true});
           
           // let kor_start = document.getElementById('start').value;
