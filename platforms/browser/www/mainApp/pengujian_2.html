@@ -94,7 +94,7 @@
     }
 
   });
-
+      //FUNGSI UNTUK MERENDER MAPS
       function initMap() {
         var directionsService = new google.maps.DirectionsService;
         var directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers:true});
@@ -104,6 +104,7 @@
         });
         directionsDisplay.setMap(map);
         var node_pilihan = "";
+        //FUNGSI UNTUK MENGAMBIL DATA KLINIK UNTUK DIBUAT KE MARKER MAPS
         $.post('http://api.haxors.or.id/taing/get_klinik_marker.php',function(data){
            let obj = JSON.parse(data);
            obj.forEach(myFunction);
