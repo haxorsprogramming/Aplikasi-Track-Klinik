@@ -1,8 +1,8 @@
 {
   "background_color": "#FFF",
   "display": "standalone",
-  "name": "Aplikasi-Lacak-Rute-Terdekat",
-  "short_name": "Aplikasi-Lacak-Rute-Terdekat",
+  "name": "Ilkomp_UINSU_Aplikasi_Rute_Terpendek",
+  "short_name": "Ilkomp_UINSU_Aplikasi_Rute_Terpendek",
   "version": "com.lacak.klinik",
   "description": "Aplikasi untuk melacak rute terdekat dengan menggunakan algoritma Greedy",
   "author": "Haxorsprogrammingclub",
