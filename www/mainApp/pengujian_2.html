@@ -191,12 +191,14 @@
         let lat_lt = obj.lat_lt;
         let lng_lt = obj.lng_lt;
         jarak_hasil = obj.jarak;
+        durasi_hasil = obj.waktu;
         $('#kor_awal').html(lat_aw+","+lng_aw);
         $('#kor_akhir').html(lat_lt+","+lng_lt);
         onChangeHandler();
         var service = new google.maps.DistanceMatrixService();
         $('#infoAkhir').html("<b>Titik Klinik Terdekat</b><br/>"+obj.nama_lt+"<br/>Alamat : "+obj.alamat_lt);
         $('#jarak_waktu').html("Jarak : <b>" + jarak_hasil + " Km</b>,");
+        $('#jarak_waktu').append(" Durasi : <b>" + durasi_hasil+" Menit<b/>");
         let start_ex_d = $('#kor_awal').html();
         // let kor_finish = document.getElementById('finish').value;
         let finish_ex_d = $('#kor_akhir').html();
@@ -224,7 +226,7 @@
         var jarak = element.distance.text;
         console.log(response);
         console.log(duration);
-          $('#jarak_waktu').append(" Durasi : <b>" + duration+"<b/>");
+         
       }
 
     $('#btnKembali').click(function(){
